@@ -135,7 +135,7 @@ public class FastChunkProviderFlat implements IChunkProvider {
             (new WorldGenDungeons()).generate(this.worldObj, this.random, i2, j2, k1);
         }
 
-        //BiomeGenBase.plains.decorate(this.worldObj, this.random, k, l);
+        // BiomeGenBase.plains.decorate(this.worldObj, this.random, k, l);
     }
 
     /**

@@ -28,7 +28,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
 
-@Mod(modid = GerverMod.MODID, version = Tags.VERSION, name = "GerverMod", acceptedMinecraftVersions = "[1.7.10]", acceptableRemoteVersions = "*")
+@Mod(
+    modid = GerverMod.MODID,
+    version = Tags.VERSION,
+    name = "GerverMod",
+    acceptedMinecraftVersions = "[1.7.10]",
+    acceptableRemoteVersions = "*")
 @EventBusSubscriber
 public class GerverMod {
 
