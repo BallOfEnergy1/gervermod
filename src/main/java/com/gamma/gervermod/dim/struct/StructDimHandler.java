@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Stack;
 
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
@@ -19,6 +18,7 @@ import com.gamma.gervermod.core.GerverMod;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class StructDimHandler {
 

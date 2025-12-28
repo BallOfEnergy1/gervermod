@@ -11,7 +11,6 @@
 package com.gamma.gervermod.dim.struct;
 
 import java.util.HashMap;
-import java.util.Random;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.util.ChunkCoordinates;
@@ -64,7 +63,11 @@ public class StructWorldProvider extends WorldProvider {
             .put("lava_lake", new HashMap<>());
         flatgeneratorinfo.getWorldFeatures()
             .put("dungeon", new HashMap<>());
-        return new ChunkProviderFlat(this.worldObj, (long) (Math.random() * Long.MAX_VALUE), true, flatgeneratorinfo.toString());
+        return new ChunkProviderFlat(
+            this.worldObj,
+            (long) (Math.random() * Long.MAX_VALUE),
+            true,
+            flatgeneratorinfo.toString());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.gamma.gervermod.command;
 
+import java.util.List;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
@@ -8,8 +10,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
 import com.gamma.gervermod.dim.struct.StructDimHandler;
-
-import java.util.List;
 
 public class StructWorldCommand extends CommandBase {
 
@@ -96,7 +96,7 @@ public class StructWorldCommand extends CommandBase {
 
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args) {
-        return args.length == 1 ? getListOfStringsMatchingLastWord(args, "enter", "leave", "cancel"): null;
+        return args.length == 1 ? getListOfStringsMatchingLastWord(args, "enter", "leave", "cancel") : null;
     }
 
     @Override
