@@ -1,9 +1,9 @@
 package com.gamma.gervermod.dim.struct;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.world.Teleporter;
 import net.minecraft.world.WorldServer;
-import net.minecraft.world.chunk.Chunk;
 
 public class StructDimTeleporter extends Teleporter {
 
@@ -17,9 +17,20 @@ public class StructDimTeleporter extends Teleporter {
     @Override
     public void placeInPortal(final Entity par1Entity, double par2, double par4, double par6, float par8) {
         WorldServer world = this.world;
-        Chunk chunk = world.getChunkFromBlockCoords(0, 0); // gen chunk
-        par1Entity.setLocationAndAngles(0, chunk.getHeightValue(0, 0), 0, par1Entity.rotationYaw, 0.0F);
+        int[] spawn = getSpawn(world);
+        par1Entity.setLocationAndAngles(spawn[0], spawn[1], spawn[2], par1Entity.rotationYaw, 0.0F);
         par1Entity.motionX = par1Entity.motionY = par1Entity.motionZ = 0.0D;
+    }
+
+    private int[] getSpawn(WorldServer world) {
+        ChunkCoordinates spawnpoint = world.getSpawnPoint();
+
+        while (world.getBlock(spawnpoint.posX, spawnpoint.posY, spawnpoint.posZ)
+            .isNormalCube()) {
+            spawnpoint.posY += 2;
+        }
+
+        return new int[] { spawnpoint.posX, spawnpoint.posY, spawnpoint.posZ };
     }
 
     @Override

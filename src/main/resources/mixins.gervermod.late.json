@@ -16,7 +16,7 @@
     "structworld.DungeonToolboxMixin",
     "structworld.EtFuturumLateWorldGeneratorMixin",
     "structworld.EtFuturumWorldGeneratorMixin",
-    "structworld.NBTStructureMixin",
+    "structworld.HbmWorldGenMixin",
     "structworld.ThreadBackupMixin"
   ],
   "client": []

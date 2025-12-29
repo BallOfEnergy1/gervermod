@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.gamma.gervermod.Tags;
+import com.gamma.gervermod.command.AdminStructWorldCommand;
 import com.gamma.gervermod.command.StructWorldCommand;
 import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.gamma.gervermod.dim.struct.StructDimTeleporter;
@@ -43,9 +44,12 @@ public class GerverMod {
 
     public static boolean eidLoaded = false;
 
+    @Mod.Instance(MODID)
+    public static GerverMod instance;
+
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        DimensionManager.registerProviderType(StructDimHandler.structDim = 400, StructWorldProvider.class, false);
+        DimensionManager.registerProviderType(StructDimHandler.structDim, StructWorldProvider.class, false);
         DimensionManager.registerDimension(StructDimHandler.structDim, StructDimHandler.structDim);
     }
 
@@ -70,6 +74,7 @@ public class GerverMod {
     public void onServerStarting(final FMLServerStartingEvent event) {
 
         event.registerServerCommand(new StructWorldCommand());
+        event.registerServerCommand(new AdminStructWorldCommand());
 
         World world = event.getServer()
             .getEntityWorld();

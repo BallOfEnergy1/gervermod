@@ -14,13 +14,13 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.chunk.storage.ExtendedBlockStorage;
 import net.minecraft.world.gen.MapGenBase;
 import net.minecraft.world.gen.feature.WorldGenDungeons;
-import net.minecraft.world.gen.feature.WorldGenLakes;
 import net.minecraft.world.gen.structure.MapGenMineshaft;
 import net.minecraft.world.gen.structure.MapGenScatteredFeature;
 import net.minecraft.world.gen.structure.MapGenStructure;
@@ -37,7 +37,6 @@ public class FastChunkProviderFlat implements IChunkProvider {
     private final Random random;
     private final Block[] cachedBlockIDs = new Block[256];
     private final List<MapGenStructure> structureGenerators = new ArrayList<>();
-    private final WorldGenLakes waterLakeGenerator = new WorldGenLakes(Blocks.water);
 
     public FastChunkProviderFlat(World p_i2004_1_) {
         this.worldObj = p_i2004_1_;
@@ -49,6 +48,9 @@ public class FastChunkProviderFlat implements IChunkProvider {
         this.structureGenerators.add(new MapGenScatteredFeature(Object2ObjectMaps.emptyMap()));
 
         this.structureGenerators.add(new MapGenMineshaft(Object2ObjectMaps.emptyMap()));
+
+        this.worldObj.getWorldInfo()
+            .setTerrainType(WorldType.FLAT);
 
         this.cachedBlockIDs[0] = Blocks.bedrock;
         Arrays.fill(this.cachedBlockIDs, 1, 68, Blocks.stone);
@@ -91,13 +93,21 @@ public class FastChunkProviderFlat implements IChunkProvider {
             }
         }
 
-        // Quickly inject proper data.
-        chunk.heightMapMinimum = 70;
-        Arrays.fill(chunk.heightMap, (byte) 70);
-        chunk.isModified = true;
+        chunk.generateSkylightMap();
+        BiomeGenBase[] abiomegenbase = this.worldObj.getWorldChunkManager()
+            .loadBlockGeneratorData(null, p_73154_1_ * 16, p_73154_2_ * 16, 16, 16);
 
-        if (eidLoaded) Arrays.fill(((ChunkBiomeHook) chunk).getBiomeShortArray(), (short) BiomeGenBase.plains.biomeID);
-        else Arrays.fill(chunk.getBiomeArray(), (byte) BiomeGenBase.plains.biomeID);
+        if (eidLoaded) {
+            short[] ashort = ((ChunkBiomeHook) chunk).getBiomeShortArray();
+            for (l = 0; l < ashort.length; ++l) {
+                ashort[l] = (short) abiomegenbase[l].biomeID;
+            }
+        } else {
+            byte[] abyte = chunk.getBiomeArray();
+            for (l = 0; l < abyte.length; ++l) {
+                abyte[l] = (byte) abiomegenbase[l].biomeID;
+            }
+        }
 
         for (MapGenBase mapgenbase : this.structureGenerators)
             mapgenbase.func_151539_a(this, this.worldObj, p_73154_1_, p_73154_2_, null);
@@ -135,7 +145,8 @@ public class FastChunkProviderFlat implements IChunkProvider {
             (new WorldGenDungeons()).generate(this.worldObj, this.random, i2, j2, k1);
         }
 
-        // BiomeGenBase.plains.decorate(this.worldObj, this.random, k, l);
+        BiomeGenBase biomegenbase = this.worldObj.getBiomeGenForCoords(k + 16, l + 16);
+        biomegenbase.decorate(this.worldObj, this.random, k, l);
     }
 
     /**

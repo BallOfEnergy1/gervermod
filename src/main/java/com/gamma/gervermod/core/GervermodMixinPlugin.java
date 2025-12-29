@@ -59,7 +59,7 @@ public class GervermodMixinPlugin implements IMixinConfigPlugin, ILateMixinLoade
             "structworld.DungeonToolboxMixin",
             "structworld.EtFuturumLateWorldGeneratorMixin",
             "structworld.EtFuturumWorldGeneratorMixin",
-            "structworld.NBTStructureMixin",
+            "structworld.HbmWorldGenMixin",
             "structworld.ThreadBackupMixin");
     }
 }

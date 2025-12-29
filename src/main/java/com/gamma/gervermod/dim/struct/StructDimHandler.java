@@ -22,11 +22,12 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
 public class StructDimHandler {
 
-    public static int structDim;
+    public static final int structDim = 400;
 
     public static long nextClearMillis;
     private static int stage = 0;
     private static int ticksSinceUnload = 0;
+    private static boolean override = false;
 
     private static final Object2BooleanMap<EntityPlayer> playersQueued = new Object2BooleanOpenHashMap<>();
 
@@ -91,24 +92,8 @@ public class StructDimHandler {
 
             WorldServer world = MinecraftServer.getServer()
                 .worldServerForDimension(structDim);
-            World overworld = MinecraftServer.getServer()
-                .getEntityWorld();
 
-            // noinspection SynchronizeOnNonFinalField
-            List<EntityPlayer> players;
-            synchronized (world.playerEntities) {
-                players = new ObjectArrayList<>(world.playerEntities);
-            }
-            for (EntityPlayer entityPlayer : players) {
-                MinecraftServer.getServer()
-                    .getConfigurationManager()
-                    .transferPlayerToDimension(
-                        (EntityPlayerMP) entityPlayer,
-                        0,
-                        new StructDimTeleporter(
-                            MinecraftServer.getServer()
-                                .worldServerForDimension(0)));
-            }
+            kick();
 
             world.flush();
             DimensionManager.unloadWorld(structDim);
@@ -145,7 +130,7 @@ public class StructDimHandler {
     }
 
     public static boolean joinsAllowed() {
-        return stage < 2;
+        return stage < 2 && !override;
     }
 
     public static boolean isQueued(EntityPlayer player) {
@@ -162,6 +147,30 @@ public class StructDimHandler {
 
     public static void queueForLeave(EntityPlayer player) {
         playersQueued.put(player, false);
+    }
+
+    public static void kick() {
+        World world = MinecraftServer.getServer()
+            .worldServerForDimension(structDim);
+        List<EntityPlayer> players;
+        // noinspection SynchronizeOnNonFinalField
+        synchronized (world.playerEntities) {
+            players = new ObjectArrayList<>(world.playerEntities);
+        }
+        for (EntityPlayer entityPlayer : players) {
+            MinecraftServer.getServer()
+                .getConfigurationManager()
+                .transferPlayerToDimension(
+                    (EntityPlayerMP) entityPlayer,
+                    0,
+                    new StructDimTeleporter(
+                        MinecraftServer.getServer()
+                            .worldServerForDimension(0)));
+        }
+    }
+
+    public static void disallow() {
+        override = true;
     }
 
     private static final Stack<File> toDelete = new Stack<>();
