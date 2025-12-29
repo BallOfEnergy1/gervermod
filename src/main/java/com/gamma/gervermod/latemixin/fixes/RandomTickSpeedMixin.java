@@ -1,4 +1,4 @@
-package com.gamma.gervermod.mixin.fixes;
+package com.gamma.gervermod.latemixin.fixes;
 
 import net.minecraft.world.GameRules;
 
@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 
-import accessors.RandomTickSpeedAccessor;
+import com.gamma.gervermod.accessors.RandomTickSpeedAccessor;
+
 import ganymedes01.etfuturum.gamerule.RandomTickSpeed;
 
 @Mixin(RandomTickSpeed.class)
