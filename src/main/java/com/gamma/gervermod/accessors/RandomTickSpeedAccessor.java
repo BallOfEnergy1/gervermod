@@ -1,4 +1,4 @@
-package accessors;
+package com.gamma.gervermod.accessors;
 
 public interface RandomTickSpeedAccessor {
 

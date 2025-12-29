@@ -32,6 +32,7 @@ import cpw.mods.fml.common.gameevent.TickEvent;
     modid = GerverMod.MODID,
     version = Tags.VERSION,
     name = "GerverMod",
+    dependencies = "required-after:hbm",
     acceptedMinecraftVersions = "[1.7.10]",
     acceptableRemoteVersions = "*")
 @EventBusSubscriber
@@ -44,10 +45,7 @@ public class GerverMod {
 
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        DimensionManager.registerProviderType(
-            StructDimHandler.structDim = DimensionManager.getNextFreeDimId(),
-            StructWorldProvider.class,
-            false);
+        DimensionManager.registerProviderType(StructDimHandler.structDim = 400, StructWorldProvider.class, false);
         DimensionManager.registerDimension(StructDimHandler.structDim, StructDimHandler.structDim);
     }
 

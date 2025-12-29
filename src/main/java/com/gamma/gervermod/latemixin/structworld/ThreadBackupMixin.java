@@ -1,4 +1,4 @@
-package com.gamma.gervermod.mixin.structworld;
+package com.gamma.gervermod.latemixin.structworld;
 
 import java.io.File;
 import java.util.List;

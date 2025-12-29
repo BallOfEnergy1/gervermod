@@ -1,4 +1,4 @@
-package com.gamma.gervermod.mixin.structworld;
+package com.gamma.gervermod.latemixin.structworld;
 
 import java.util.Random;
 
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.hbm.world.feature.DepthDeposit;
 
-@Mixin(DepthDeposit.class)
+@Mixin(value = DepthDeposit.class, remap = false)
 public abstract class DepthDepositMixin {
 
     @Inject(method = "generate", at = @At("HEAD"), cancellable = true, remap = false)

@@ -1,4 +1,4 @@
-package com.gamma.gervermod.mixin.structworld;
+package com.gamma.gervermod.latemixin.structworld;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -13,7 +13,7 @@ import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.hbm.inventory.FluidStack;
 import com.hbm.world.feature.BedrockOre;
 
-@Mixin(BedrockOre.class)
+@Mixin(value = BedrockOre.class, remap = false)
 public abstract class BedrockOreMixin {
 
     @Inject(

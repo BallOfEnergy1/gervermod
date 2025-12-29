@@ -1,4 +1,4 @@
-package com.gamma.gervermod.mixin.structworld;
+package com.gamma.gervermod.latemixin.structworld;
 
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -10,7 +10,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 
 import it.unimi.dsi.fastutil.ints.IntList;
 
-@Mixin(NBTStructure.class)
+@Mixin(value = NBTStructure.class, remap = false)
 public abstract class NBTStructureMixin {
 
     @WrapMethod(method = "registerStructure(ILcom/hbm/world/gen/nbt/SpawnCondition;)V", remap = false)
