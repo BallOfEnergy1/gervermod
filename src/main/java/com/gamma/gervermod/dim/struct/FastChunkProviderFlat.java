@@ -14,7 +14,6 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.IProgressUpdate;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
@@ -50,8 +49,8 @@ public class FastChunkProviderFlat implements IChunkProvider {
 
         this.structureGenerators.add(new MapGenMineshaft(Object2ObjectMaps.emptyMap()));
 
-        this.worldObj.getWorldInfo()
-            .setTerrainType(WorldType.FLAT);
+        // this.worldObj.getWorldInfo()
+        // .setTerrainType(WorldType.FLAT);
 
         this.cachedBlockIDs[0] = Blocks.bedrock;
         Arrays.fill(this.cachedBlockIDs, 1, 68, bottomBlock);
