@@ -1,5 +1,7 @@
 package com.gamma.gervermod.command;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -20,12 +22,12 @@ public class StructWorldCommand extends CommandBase {
 
     @Override
     public String getCommandUsage(ICommandSender sender) {
-        return "/structworld <enter|leave|cancel>";
+        return "/structworld <enter|leave|cancel|timer>";
     }
 
     @Override
     public void processCommand(ICommandSender sender, String[] args) {
-        if (args.length != 1) throw new WrongUsageException("/structworld <enter|leave|cancel>");
+        if (args.length != 1) throw new WrongUsageException("/structworld <enter|leave|cancel|timer>");
 
         if (args[0].equalsIgnoreCase("enter")) {
             if (sender == MinecraftServer.getServer()) {
@@ -91,7 +93,26 @@ public class StructWorldCommand extends CommandBase {
             sender.addChatMessage(new ChatComponentText("Leaving queue..."));
 
             StructDimHandler.cancelQueue(player);
-        } else throw new WrongUsageException("/structworld <enter|leave|cancel>");
+        } else if (args[0].equalsIgnoreCase("timer")) {
+
+            Instant instant = Instant.ofEpochMilli(StructDimHandler.nextClearMillis);
+            Instant now = Instant.now();
+
+            long seconds = now.until(instant, ChronoUnit.SECONDS);
+            long minutes = seconds / 60;
+            long hours = minutes / 60;
+            minutes = minutes % 60;
+            seconds = seconds % 60;
+
+            sender.addChatMessage(
+                new ChatComponentText(
+                    "The structure dimension will clear in " + hours
+                        + " hours, "
+                        + minutes
+                        + " minutes, and "
+                        + seconds
+                        + " seconds."));
+        } else throw new WrongUsageException("/structworld <enter|leave|cancel|timer>");
     }
 
     @Override

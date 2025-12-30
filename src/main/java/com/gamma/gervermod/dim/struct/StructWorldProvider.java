@@ -1,27 +1,15 @@
-/*
- * This file is part of Applied Energistics 2. Copyright (c) 2013 - 2015, AlgorithmX2, All rights reserved. Applied
- * Energistics 2 is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General
- * Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any
- * later version. Applied Energistics 2 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General
- * Public License for more details. You should have received a copy of the GNU Lesser General Public License along with
- * Applied Energistics 2. If not, see <http://www.gnu.org/licenses/lgpl>.
- */
-
 package com.gamma.gervermod.dim.struct;
 
 import java.util.Random;
 
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldProviderSurface;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManagerHell;
-import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraftforge.client.IRenderHandler;
 
-public class StructWorldProvider extends WorldProvider {
+import com.hbm.dim.WorldProviderCelestial;
+
+public class StructWorldProvider extends WorldProviderCelestial {
 
     public StructWorldProvider() {
 
@@ -35,7 +23,7 @@ public class StructWorldProvider extends WorldProvider {
     }
 
     @Override
-    protected void registerWorldChunkManager() {
+    public void registerWorldChunkManager() {
         super.worldChunkMgr = new WorldChunkManagerHell(BiomeGenBase.plains, 0.0F);
     }
 
@@ -60,12 +48,6 @@ public class StructWorldProvider extends WorldProvider {
     }
 
     @Override
-    public IRenderHandler getSkyRenderer() {
-        return WorldProviderSurface.getProviderForDimension(0)
-            .getSkyRenderer();
-    }
-
-    @Override
     public boolean canSnowAt(final int x, final int y, final int z, final boolean checkLight) {
         return false;
     }
@@ -77,11 +59,6 @@ public class StructWorldProvider extends WorldProvider {
 
     @Override
     public boolean isBlockHighHumidity(final int x, final int y, final int z) {
-        return false;
-    }
-
-    @Override
-    public boolean canDoLightning(final Chunk chunk) {
         return false;
     }
 }

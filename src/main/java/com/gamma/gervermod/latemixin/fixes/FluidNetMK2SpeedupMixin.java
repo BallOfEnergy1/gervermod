@@ -28,6 +28,12 @@ public abstract class FluidNetMK2SpeedupMixin {
 
     @Inject(method = "<init>", at = @At(value = "TAIL"), remap = false)
     private void injected(FluidType type, CallbackInfo ci) {
+
+        // noinspection unchecked
+        providers = new List[6];
+        // noinspection unchecked
+        receivers = new List[6][IEnergyReceiverMK2.ConnectionPriority.values().length];
+
         for (int i = 0; i < 6; ++i) {
             providers[i] = new ObjectArrayList<>();
         }
