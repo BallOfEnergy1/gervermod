@@ -10,9 +10,11 @@
   "target": "@env(DEFAULT)",
   "plugin": "com.gamma.gervermod.core.GervermodMixinPlugin",
   "mixins": [
+    "fixes.AnvilChunkLoaderMixin",
     "fixes.DimensionManagerSpeedupMixin",
     "fixes.EntitySpeedupMixin",
     "fixes.MapStorageSpeedupMixin",
+    "fixes.WorldServerMixin",
     "structworld.BiomeDecoratorMixin"
   ],
   "client": [],

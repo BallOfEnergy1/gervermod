@@ -3,6 +3,7 @@ package com.gamma.gervermod.mixin.fixes;
 import java.util.Collection;
 import java.util.Map;
 
+import com.gamma.gervermod.accessors.ChunkAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -22,7 +23,7 @@ import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 // This mixin occurs only on the server-side, fully because the fillChunk method
 // is taken up (overwritten) by chunkapi.
 @Mixin(Chunk.class)
-public abstract class ChunkSpeedupMixin {
+public abstract class ChunkSpeedupMixin implements ChunkAccessor {
 
     @Shadow
     @Final
@@ -123,5 +124,10 @@ public abstract class ChunkSpeedupMixin {
         at = @At(value = "INVOKE", target = "Ljava/util/Map;values()Ljava/util/Collection;"))
     private Collection<?> redirect(Map instance) {
         return this.gervermod$tileEntityMap.values();
+    }
+
+    @Override
+    public Short2ObjectMap<TileEntity> gervermod$getTileEntityMap() {
+        return gervermod$tileEntityMap;
     }
 }
