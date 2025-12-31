@@ -43,6 +43,16 @@ public class NBTStructureTransformer implements IMethodTransformer {
                 "registerStructure",
                 "(ILcom/hbm/world/gen/nbt/SpawnCondition;)V",
                 false));
+        list.add(
+            new FieldInsnNode(Opcodes.GETSTATIC, "com/gamma/gervermod/dim/struct/StructDimHandler", "desertStructDim", "I"));
+        list.add(new VarInsnNode(Opcodes.ALOAD, 1));
+        list.add(
+            new MethodInsnNode(
+                Opcodes.INVOKESTATIC,
+                "com/hbm/world/gen/nbt/NBTStructure",
+                "registerStructure",
+                "(ILcom/hbm/world/gen/nbt/SpawnCondition;)V",
+                false));
         list.add(notEqual);
 
         mn.instructions.insertBefore(mn.instructions.getFirst(), list);

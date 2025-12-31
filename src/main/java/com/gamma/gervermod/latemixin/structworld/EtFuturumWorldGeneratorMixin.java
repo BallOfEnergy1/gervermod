@@ -20,6 +20,8 @@ public abstract class EtFuturumWorldGeneratorMixin {
     @Inject(method = "generate", at = @At(value = "HEAD"), cancellable = true, remap = false)
     private void injected(Random rand, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator,
         IChunkProvider chunkProvider, CallbackInfo ci) {
-        if (world.provider.dimensionId == StructDimHandler.structDim) ci.cancel();
+        for (int dimID : StructDimHandler.allDims.keySet()) {
+            if (world.provider.dimensionId == dimID) ci.cancel();
+        }
     }
 }

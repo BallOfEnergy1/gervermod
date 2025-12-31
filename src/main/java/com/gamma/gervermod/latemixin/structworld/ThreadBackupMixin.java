@@ -29,8 +29,10 @@ public abstract class ThreadBackupMixin {
         remap = false)
     private static void injected(ICompress compressor, File src, String customName, Set<ChunkDimPos> chunks,
         CallbackInfo ci, @Local(name = "files") List<File> files) {
-        files.removeIf(
-            f -> f.getAbsolutePath()
-                .contains("DIM" + StructDimHandler.structDim));
+        for (int dimID : StructDimHandler.allDims.keySet()) {
+            files.removeIf(
+                f -> f.getAbsolutePath()
+                    .contains("DIM" + dimID));
+        }
     }
 }

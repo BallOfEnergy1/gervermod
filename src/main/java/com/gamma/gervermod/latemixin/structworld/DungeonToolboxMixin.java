@@ -23,6 +23,8 @@ public abstract class DungeonToolboxMixin {
         remap = false)
     private static void generateOre(World world, Random rand, int chunkX, int chunkZ, int veinCount, int amount,
         int minHeight, int variance, Block ore, int meta, Block target, CallbackInfo ci) {
-        if (world.provider.dimensionId == StructDimHandler.structDim) ci.cancel();
+        for (int dimID : StructDimHandler.allDims.keySet()) {
+            if (world.provider.dimensionId == dimID) ci.cancel();
+        }
     }
 }

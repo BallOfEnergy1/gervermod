@@ -23,6 +23,8 @@ public abstract class BedrockOreMixin {
         remap = false)
     private static void generate(World world, int x, int z, ItemStack stack, FluidStack acid, int color, int tier,
         Block depthRock, Block targetBlock, CallbackInfo ci) {
-        if (world.provider.dimensionId == StructDimHandler.structDim) ci.cancel();
+        for (int dimID : StructDimHandler.allDims.keySet()) {
+            if (world.provider.dimensionId == dimID) ci.cancel();
+        }
     }
 }

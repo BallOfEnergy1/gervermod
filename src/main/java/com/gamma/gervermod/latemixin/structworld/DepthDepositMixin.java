@@ -19,6 +19,8 @@ public abstract class DepthDepositMixin {
     @Inject(method = "generate", at = @At("HEAD"), cancellable = true, remap = false)
     private static void generateOre(World world, int x, int y, int z, int size, double fill, Block block, Random rand,
         Block genTarget, Block filler, CallbackInfo ci) {
-        if (world.provider.dimensionId == StructDimHandler.structDim) ci.cancel();
+        for (int dimID : StructDimHandler.allDims.keySet()) {
+            if (world.provider.dimensionId == dimID) ci.cancel();
+        }
     }
 }
