@@ -122,7 +122,7 @@ public abstract class ChunkSpeedupMixin implements ChunkAccessor {
      * @author BallOfEnergy01
      * @reason Performance fixes.
      */
-    @Overwrite
+    @Overwrite(remap = false)
     public TileEntity getTileEntityUnsafe(int x, int y, int z) {
         short packed = gervermod$packCoords(x, y, z);
         TileEntity tileentity = this.gervermod$tileEntityMap.get(packed);
@@ -139,7 +139,7 @@ public abstract class ChunkSpeedupMixin implements ChunkAccessor {
      * @author BallOfEnergy01
      * @reason Performance fixes.
      */
-    @Overwrite
+    @Overwrite(remap = false)
     public void removeInvalidTileEntity(int x, int y, int z) {
         short packed = gervermod$packCoords(x, y, z);
         if (isChunkLoaded) {
