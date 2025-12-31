@@ -3,7 +3,6 @@ package com.gamma.gervermod.mixin.fixes;
 import java.util.Collection;
 import java.util.Map;
 
-import com.gamma.gervermod.accessors.ChunkAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -16,6 +15,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+
+import com.gamma.gervermod.accessors.ChunkAccessor;
 
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
@@ -96,8 +97,7 @@ public abstract class ChunkSpeedupMixin implements ChunkAccessor {
             .hasTileEntity(metadata)) {
             short packed = gervermod$packCoords(x, y, z);
             TileEntity oldTE = this.gervermod$tileEntityMap.put(packed, newTileEntity);
-            if (oldTE != null)
-                oldTE.invalidate();
+            if (oldTE != null) oldTE.invalidate();
             newTileEntity.validate();
         }
     }
