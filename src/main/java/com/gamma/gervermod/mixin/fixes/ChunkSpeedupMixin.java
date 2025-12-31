@@ -94,9 +94,10 @@ public abstract class ChunkSpeedupMixin implements ChunkAccessor {
         if (this.getBlock(x, y, z)
             .hasTileEntity(metadata)) {
             short packed = gervermod$packCoords(x, y, z);
-            TileEntity oldTE = this.gervermod$tileEntityMap.put(packed, newTileEntity);
+            TileEntity oldTE = this.gervermod$tileEntityMap.get(packed);
             if (oldTE != null) oldTE.invalidate();
             newTileEntity.validate();
+            this.gervermod$tileEntityMap.put(packed, newTileEntity);
         }
     }
 
@@ -113,6 +114,38 @@ public abstract class ChunkSpeedupMixin implements ChunkAccessor {
 
             if (tileentity != null) {
                 tileentity.invalidate();
+            }
+        }
+    }
+
+    /**
+     * @author BallOfEnergy01
+     * @reason Performance fixes.
+     */
+    @Overwrite
+    public TileEntity getTileEntityUnsafe(int x, int y, int z) {
+        short packed = gervermod$packCoords(x, y, z);
+        TileEntity tileentity = this.gervermod$tileEntityMap.get(packed);
+
+        if (tileentity != null && tileentity.isInvalid()) {
+            gervermod$tileEntityMap.remove(packed, tileentity);
+            tileentity = null;
+        }
+
+        return tileentity;
+    }
+
+    /**
+     * @author BallOfEnergy01
+     * @reason Performance fixes.
+     */
+    @Overwrite
+    public void removeInvalidTileEntity(int x, int y, int z) {
+        short packed = gervermod$packCoords(x, y, z);
+        if (isChunkLoaded) {
+            TileEntity entity = gervermod$tileEntityMap.get(packed);
+            if (entity != null && entity.isInvalid()) {
+                gervermod$tileEntityMap.remove(packed, entity);
             }
         }
     }

@@ -23,4 +23,10 @@ public abstract class UniNodespaceSpeedupMixin {
     private static void injected(CallbackInfo ci) {
         activeNodeNets = new ObjectLinkedOpenHashSet<>();
     }
+
+    @Inject(method = "updateNodespace", at = @At("TAIL"), remap = false)
+    private static void injected2(CallbackInfo ci) {
+        // fix pulled from NTM main.
+        activeNodeNets.removeIf((net) -> net.links.isEmpty()); // reap empty networks
+    }
 }
