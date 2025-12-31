@@ -11,14 +11,14 @@
   "plugin": "com.gamma.gervermod.core.GervermodMixinPlugin",
   "mixins": [
     "fixes.AnvilChunkLoaderMixin",
+    "fixes.ChunkSpeedupMixin",
     "fixes.DimensionManagerSpeedupMixin",
     "fixes.EntitySpeedupMixin",
     "fixes.MapStorageSpeedupMixin",
     "fixes.WorldServerMixin",
     "structworld.BiomeDecoratorMixin"
   ],
-  "client": [],
-  "server": [
-    "fixes.ChunkSpeedupMixin"
+  "client": [
+    "fixes.NetHandlerPlayClientMixin"
   ]
 }

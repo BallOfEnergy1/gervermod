@@ -21,8 +21,6 @@ import com.gamma.gervermod.accessors.ChunkAccessor;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectMap;
 import it.unimi.dsi.fastutil.shorts.Short2ObjectOpenHashMap;
 
-// This mixin occurs only on the server-side, fully because the fillChunk method
-// is taken up (overwritten) by chunkapi.
 @Mixin(Chunk.class)
 public abstract class ChunkSpeedupMixin implements ChunkAccessor {
 
