@@ -95,7 +95,8 @@ public abstract class ChunkSpeedupMixin {
             .hasTileEntity(metadata)) {
             short packed = gervermod$packCoords(x, y, z);
             TileEntity oldTE = this.gervermod$tileEntityMap.put(packed, newTileEntity);
-            oldTE.invalidate();
+            if (oldTE != null)
+                oldTE.invalidate();
             newTileEntity.validate();
         }
     }
