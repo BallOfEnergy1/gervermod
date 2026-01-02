@@ -20,6 +20,6 @@ public abstract class EntitySpeedupMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void injected(CallbackInfo ci) {
-        extendedProperties = new LinkedHashMap<>();
+        extendedProperties = new LinkedHashMap<>(extendedProperties);
     }
 }

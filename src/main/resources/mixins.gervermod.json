@@ -10,6 +10,7 @@
   "target": "@env(DEFAULT)",
   "plugin": "com.gamma.gervermod.core.GervermodMixinPlugin",
   "mixins": [
+    "fixes.ChunkSpeedupMixin",
     "fixes.DimensionManagerSpeedupMixin",
     "fixes.EntitySpeedupMixin",
     "fixes.MapStorageSpeedupMixin",
