@@ -33,7 +33,7 @@ public abstract class UniNodespaceSpeedupMixin {
      * @reason Performance fixes.
      */
     @Overwrite(remap = false)
-    public static void updateNetworks() {
+    private static void updateNetworks() {
         Collection<NodeNet<?, ?, ?>> toRemove = new ObjectArrayList<>();
 
         // more testing needed for parallelization.
