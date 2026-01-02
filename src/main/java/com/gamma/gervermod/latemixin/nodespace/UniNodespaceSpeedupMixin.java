@@ -1,4 +1,4 @@
-package com.gamma.gervermod.latemixin.fixes;
+package com.gamma.gervermod.latemixin.nodespace;
 
 import java.util.Set;
 

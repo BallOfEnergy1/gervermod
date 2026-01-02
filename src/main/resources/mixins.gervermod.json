@@ -14,6 +14,7 @@
     "fixes.DimensionManagerSpeedupMixin",
     "fixes.EntitySpeedupMixin",
     "fixes.MapStorageSpeedupMixin",
+    "fixes.TileEntityMixin",
     "structworld.BiomeDecoratorMixin"
   ],
   "client": []
