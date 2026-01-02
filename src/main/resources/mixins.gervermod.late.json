@@ -22,7 +22,6 @@
     "fixes.RandomTickSpeedMixin",
     "fixes.TPSTabAIOOBFixMixin",
     "nodespace.FluidNetMK2SpeedupMixin",
-    "nodespace.CompatSpeedupMixin",
     "nodespace.NodeNetSpeedupMixin",
     "nodespace.UniNodespaceSpeedupMixin",
     "structworld.BedrockOreMixin",
