@@ -1,7 +1,8 @@
 package com.gamma.gervermod.util;
 
-import com.gtnewhorizon.gtnhlib.blockpos.BlockPos;
 import net.minecraft.world.World;
+
+import com.gtnewhorizon.gtnhlib.blockpos.BlockPos;
 
 public class WorldPos extends BlockPos {
 

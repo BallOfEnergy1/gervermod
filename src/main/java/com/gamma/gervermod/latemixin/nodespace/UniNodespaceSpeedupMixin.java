@@ -17,7 +17,7 @@ import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 public abstract class UniNodespaceSpeedupMixin {
 
     @Shadow(remap = false)
-    public static Set<NodeNet> activeNodeNets;
+    public static Set<NodeNet<?, ?, ?>> activeNodeNets;
 
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void injected(CallbackInfo ci) {

@@ -15,10 +15,10 @@ import com.hbm.uninos.NodeNet;
 public abstract class NodeNetSpeedupMixin {
 
     @Shadow(remap = false)
-    public HashMap receiverEntries;
+    public HashMap<?, ?> receiverEntries;
 
     @Shadow(remap = false)
-    public HashMap providerEntries;
+    public HashMap<?, ?> providerEntries;
 
     @Inject(method = "<init>", at = @At("TAIL"), remap = false)
     private void injected(CallbackInfo ci) {

@@ -1,11 +1,13 @@
 package com.gamma.gervermod.util;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
+
 import com.hbm.util.Compat;
+
 import it.unimi.dsi.fastutil.objects.Object2ObjectFunction;
 import it.unimi.dsi.fastutil.objects.Object2ObjectMap;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.world.World;
 
 public class NodespaceSpeedup {
 
