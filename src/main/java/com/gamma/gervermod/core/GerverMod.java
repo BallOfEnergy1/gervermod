@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.gamma.gervermod.Tags;
 import com.gamma.gervermod.command.AdminStructWorldCommand;
+import com.gamma.gervermod.command.CommandReapNetworks;
 import com.gamma.gervermod.command.StructWorldCommand;
 import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.gamma.gervermod.dim.struct.StructDimTeleporter;
@@ -98,6 +99,7 @@ public class GerverMod {
 
         event.registerServerCommand(new StructWorldCommand());
         event.registerServerCommand(new AdminStructWorldCommand());
+        if (FixesCore.ntmLoaded) event.registerServerCommand(new CommandReapNetworks());
 
         World world = event.getServer()
             .getEntityWorld();

@@ -30,6 +30,8 @@ public abstract class UniNodespaceSpeedupMixin {
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void injected(CallbackInfo ci) {
         activeNodeNets = new ObjectOpenHashSet<>();
+        // Fixed in main, waiting for release.
+        // worlds = new Object2ObjectOpenHashMap<>();
     }
 
     /**
@@ -68,11 +70,12 @@ public abstract class UniNodespaceSpeedupMixin {
 
         // This is technically at the end of the `updateNodespace()` function in main,
         // but it's more performant here than injecting. It also does the same thing.
-        gervermod$resetReapTimer();
+        gervermod$updateReapTimer();
     }
 
     @Unique
-    private static void gervermod$resetReapTimer() {
-        if (gervermod$reapTimer-- <= 0) gervermod$reapTimer = 5 * 60 * 20; // 5 minutes is more than plenty
+    private static void gervermod$updateReapTimer() {
+        if (gervermod$reapTimer <= 0) gervermod$reapTimer = 5 * 60 * 20; // 5 minutes is more than plenty
+        else gervermod$reapTimer--;
     }
 }
