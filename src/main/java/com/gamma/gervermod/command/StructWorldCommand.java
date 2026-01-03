@@ -12,7 +12,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatComponentText;
 
 import com.gamma.gervermod.dim.struct.StructDimHandler;
-import com.gamma.gervermod.dim.struct.providers.AbstractStructWorldProvider;
+import com.gamma.gervermod.dim.struct.providers.IStructWorldProvider;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
@@ -59,8 +59,7 @@ public class StructWorldCommand extends CommandBase {
             }
 
             boolean satisfied = false;
-            for (Int2ObjectMap.Entry<AbstractStructWorldProvider> provider : StructDimHandler.allDims
-                .int2ObjectEntrySet()) {
+            for (Int2ObjectMap.Entry<IStructWorldProvider> provider : StructDimHandler.allDims.int2ObjectEntrySet()) {
                 if (args[1].equalsIgnoreCase(
                     provider.getValue()
                         .getWorldType())) {

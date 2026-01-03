@@ -1,6 +1,6 @@
 package com.gamma.gervermod.dim.struct;
 
-import static com.gamma.gervermod.core.GerverMod.eidLoaded;
+import static com.gamma.gervermod.core.FixesCore.eidLoaded;
 
 import java.util.ArrayList;
 import java.util.Arrays;

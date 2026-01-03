@@ -1,16 +1,17 @@
-package com.gamma.gervermod.dim.struct.providers;
+package com.gamma.gervermod.dim.struct.providers.hbm;
 
 import java.util.Random;
 
 import net.minecraft.block.Block;
 import net.minecraft.util.ChunkCoordinates;
-import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 
 import com.gamma.gervermod.dim.struct.FastChunkProviderFlat;
+import com.gamma.gervermod.dim.struct.providers.IStructWorldProvider;
+import com.hbm.dim.WorldProviderCelestial;
 
-public abstract class AbstractStructWorldProvider extends WorldProvider implements IStructWorldProvider {
+public abstract class AbstractStructWorldProviderHBM extends WorldProviderCelestial implements IStructWorldProvider {
 
     private static final Random rand = new Random();
     private long seed = rand.nextLong();

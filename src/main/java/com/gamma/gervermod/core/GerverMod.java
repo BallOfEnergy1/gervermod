@@ -5,6 +5,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldProvider;
 import net.minecraftforge.common.DimensionManager;
 
 import org.apache.logging.log4j.LogManager;
@@ -15,10 +16,8 @@ import com.gamma.gervermod.command.AdminStructWorldCommand;
 import com.gamma.gervermod.command.StructWorldCommand;
 import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.gamma.gervermod.dim.struct.StructDimTeleporter;
-import com.gamma.gervermod.dim.struct.providers.AbstractStructWorldProvider;
+import com.gamma.gervermod.dim.struct.providers.IStructWorldProvider;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
-import com.hbm.world.gen.nbt.NBTStructure;
-import com.hbm.world.gen.nbt.SpawnCondition;
 
 import appeng.api.features.IWorldGen;
 import appeng.core.Api;
@@ -38,7 +37,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
     modid = GerverMod.MODID,
     version = Tags.VERSION,
     name = "GerverMod",
-    dependencies = "required-after:hbm",
     acceptedMinecraftVersions = "[1.7.10]",
     acceptableRemoteVersions = "*")
 @EventBusSubscriber
@@ -47,50 +45,21 @@ public class GerverMod {
     public static final String MODID = "gervermod";
     public static final Logger LOG = LogManager.getLogger(MODID);
 
-    public static boolean eidLoaded = false;
-
     @Mod.Instance(MODID)
     public static GerverMod instance;
 
     @Mod.EventHandler
     public void preInit(final FMLPreInitializationEvent event) {
-        for (Int2ObjectMap.Entry<AbstractStructWorldProvider> dimEntry : StructDimHandler.allDims
-            .int2ObjectEntrySet()) {
+
+        for (Int2ObjectMap.Entry<IStructWorldProvider> dimEntry : StructDimHandler.allDims.int2ObjectEntrySet()) {
             int dimID = dimEntry.getIntKey();
-            AbstractStructWorldProvider provider = dimEntry.getValue();
-            DimensionManager.registerProviderType(dimID, provider.getClass(), false);
+            IStructWorldProvider provider = dimEntry.getValue();
+            DimensionManager.registerProviderType(dimID, ((WorldProvider) provider).getClass(), false);
             DimensionManager.registerDimension(dimID, dimID);
         }
 
-        for (String s : NBTStructure.listStructures()) {
-            SpawnCondition condition = NBTStructure.getStructure(s);
-            for (int dimID : StructDimHandler.allDims.keySet()) {
-                SpawnCondition newCondition = new SpawnCondition(s + dimID) {
-
-                    {
-                        this.maxHeight = condition.maxHeight;
-                        this.minHeight = condition.minHeight;
-                        this.structure = condition.structure;
-                        this.pools = condition.pools;
-                        this.startPool = condition.startPool;
-                        this.spawnWeight = condition.spawnWeight;
-                        this.checkCoordinates = (WorldCoordinate worldCoordinate) -> {
-                            int x = worldCoordinate.coords.chunkXPos * 16;
-                            int z = worldCoordinate.coords.chunkZPos * 16;
-                            if (!condition.canSpawn.test(worldCoordinate.world.getBiomeGenForCoords(x, z)))
-                                return false;
-
-                            int frequency = Integer.valueOf(
-                                worldCoordinate.world.getGameRules()
-                                    .getGameRuleStringValue("structureFrequency" + dimID))
-                                .intValue();
-
-                            return worldCoordinate.rand.nextInt(frequency) == 0;
-                        };
-                    }
-                };
-                NBTStructure.registerStructure(dimID, newCondition);
-            }
+        if (Loader.isModLoaded("hbm")) {
+            CompatHandler.onPreInit();
         }
     }
 
@@ -105,7 +74,11 @@ public class GerverMod {
 
     @Mod.EventHandler
     public void onPostInit(final FMLPostInitializationEvent event) {
-        if (Loader.isModLoaded("appliedenergistics2")) {
+        FixesCore.eidLoaded = Loader.isModLoaded("endlessids");
+        FixesCore.ae2Loaded = Loader.isModLoaded("appliedenergistics2");
+        FixesCore.etFuturumLoaded = Loader.isModLoaded("etfuturum");
+        FixesCore.ntmLoaded = Loader.isModLoaded("hbm");
+        if (FixesCore.ae2Loaded) {
             for (int dimID : StructDimHandler.allDims.keySet()) {
                 Api.INSTANCE.registries()
                     .worldgen()
@@ -118,8 +91,6 @@ public class GerverMod {
                     .disableWorldGenForDimension(IWorldGen.WorldGenType.ChargedCertusQuartz, dimID);
             }
         }
-
-        eidLoaded = Loader.isModLoaded("endlessids");
     }
 
     @Mod.EventHandler

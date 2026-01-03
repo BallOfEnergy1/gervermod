@@ -15,10 +15,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.DimensionManager;
 
+import com.gamma.gervermod.core.FixesCore;
 import com.gamma.gervermod.core.GerverMod;
-import com.gamma.gervermod.dim.struct.providers.AbstractStructWorldProvider;
+import com.gamma.gervermod.dim.struct.providers.IStructWorldProvider;
 import com.gamma.gervermod.dim.struct.providers.StructWorldDesertProvider;
 import com.gamma.gervermod.dim.struct.providers.StructWorldPlainsProvider;
+import com.gamma.gervermod.dim.struct.providers.hbm.StructWorldDesertProviderHBM;
+import com.gamma.gervermod.dim.struct.providers.hbm.StructWorldPlainsProviderHBM;
 
 import cpw.mods.fml.common.FMLLog;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
@@ -31,11 +34,16 @@ public class StructDimHandler {
 
     public static final int structDim = 400;
     public static final int desertStructDim = 401;
-    public static final Int2ObjectMap<AbstractStructWorldProvider> allDims = new Int2ObjectLinkedOpenHashMap<>();
+    public static final Int2ObjectMap<IStructWorldProvider> allDims = new Int2ObjectLinkedOpenHashMap<>();
 
     static {
-        allDims.put(structDim, new StructWorldPlainsProvider());
-        allDims.put(desertStructDim, new StructWorldDesertProvider());
+        if (FixesCore.ntmLoaded) {
+            allDims.put(structDim, new StructWorldPlainsProviderHBM());
+            allDims.put(desertStructDim, new StructWorldDesertProviderHBM());
+        } else {
+            allDims.put(structDim, new StructWorldPlainsProvider());
+            allDims.put(desertStructDim, new StructWorldDesertProvider());
+        }
     }
 
     public static long nextClearMillis;
@@ -115,10 +123,10 @@ public class StructDimHandler {
                 stage = 5;
             }
         } else if (stage == 5) {
-            for (Int2ObjectMap.Entry<AbstractStructWorldProvider> dimEntry : allDims.int2ObjectEntrySet()) {
+            for (Int2ObjectMap.Entry<IStructWorldProvider> dimEntry : allDims.int2ObjectEntrySet()) {
 
                 int dimID = dimEntry.getIntKey();
-                AbstractStructWorldProvider provider = dimEntry.getValue();
+                IStructWorldProvider provider = dimEntry.getValue();
 
                 if (DimensionManager.getWorld(dimID) != null) {
                     return; // Wait until it's unloaded...

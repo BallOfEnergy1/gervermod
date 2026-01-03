@@ -10,6 +10,7 @@
   "target": "@env(LATE)",
   "plugin": "com.gamma.gervermod.core.GervermodMixinPlugin",
   "mixins": [
+    "fixes.AE2IOFixMixin",
     "fixes.AE2SpatialFixMixin",
     "fixes.ArmorModHandlerSpeedupMixin",
     "fixes.CelestialBodySpeedupMixin",

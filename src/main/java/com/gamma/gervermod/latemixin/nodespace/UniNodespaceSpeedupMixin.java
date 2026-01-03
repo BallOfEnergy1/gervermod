@@ -7,6 +7,7 @@ import java.util.stream.Stream;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -23,6 +24,9 @@ public abstract class UniNodespaceSpeedupMixin {
     @Shadow(remap = false)
     public static Set<NodeNet<?, ?, ?>> activeNodeNets;
 
+    @Unique
+    private static int gervermod$reapTimer = 0;
+
     @Inject(method = "<clinit>", at = @At("TAIL"), remap = false)
     private static void injected(CallbackInfo ci) {
         activeNodeNets = new ObjectOpenHashSet<>();
@@ -34,23 +38,41 @@ public abstract class UniNodespaceSpeedupMixin {
      */
     @Overwrite(remap = false)
     private static void updateNetworks() {
+        // Must initialize due to stream lambda.
         Collection<NodeNet<?, ?, ?>> toRemove = new ObjectArrayList<>();
 
         // more testing needed for parallelization.
         Stream<NodeNet<?, ?, ?>> stream = activeNodeNets.stream()/* .parallel() */;
-
         stream.forEach((net) -> {
-            if (net.links.isEmpty()) {
-                toRemove.add(net);
-                return;
+            // Net reaping fixes from main
+            // BEGIN
+            if (gervermod$reapTimer <= 0) {
+                net.links.removeIf((link) -> link.expired);
+                if (net.links.isEmpty()) {
+                    toRemove.add(net);
+                    return;
+                }
             }
+            // END
             net.resetTrackers();
             net.update();
         });
 
-        // the `toRemove` is very likely to be smaller than the `activeNodeNets`.
-        for (NodeNet<?, ?, ?> nodeNet : toRemove) {
-            activeNodeNets.remove(nodeNet);
+        if (gervermod$reapTimer <= 0) {
+            // The `toRemove` is very likely to be smaller than the `activeNodeNets`.
+            // Also, it's faster to iterate over (it's a list).
+            for (NodeNet<?, ?, ?> nodeNet : toRemove) {
+                activeNodeNets.remove(nodeNet);
+            }
         }
+
+        // This is technically at the end of the `updateNodespace()` function in main,
+        // but it's more performant here than injecting. It also does the same thing.
+        gervermod$resetReapTimer();
+    }
+
+    @Unique
+    private static void gervermod$resetReapTimer() {
+        if (gervermod$reapTimer-- <= 0) gervermod$reapTimer = 5 * 60 * 20; // 5 minutes is more than plenty
     }
 }
