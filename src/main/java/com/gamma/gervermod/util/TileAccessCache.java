@@ -70,6 +70,14 @@ public class TileAccessCache {
         }
 
         @Override
+        public boolean equals(Object obj) {
+            if (this == obj) return true;
+            if (obj == null) return false;
+            if (!(obj instanceof IntQuartet other)) return false;
+            return x == other.x && y == other.y && z == other.z && w == other.w;
+        }
+
+        @Override
         public IntQuartet clone() {
             try {
                 IntQuartet clone = (IntQuartet) super.clone();
