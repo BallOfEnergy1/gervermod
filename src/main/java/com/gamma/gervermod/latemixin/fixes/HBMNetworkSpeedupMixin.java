@@ -46,7 +46,8 @@ public abstract class HBMNetworkSpeedupMixin extends TileEntity implements ILoad
             ByteBuf preBuf = packet.getCompiledBuffer();
             int bufferHash = preBuf.hashCode();
 
-            if (gervermod$lastHashcode != -1 && bufferHash == gervermod$lastHashcode && worldObj.getTotalWorldTime() % 20 != 0) return;
+            if (gervermod$lastHashcode != -1 && bufferHash == gervermod$lastHashcode
+                && worldObj.getTotalWorldTime() % 20 != 0) return;
 
             this.gervermod$lastHashcode = bufferHash;
             for (EntityPlayerMP player : toSendTo) {
