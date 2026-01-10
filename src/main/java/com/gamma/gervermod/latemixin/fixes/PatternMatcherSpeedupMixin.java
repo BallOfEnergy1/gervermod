@@ -27,11 +27,13 @@ public abstract class PatternMatcherSpeedupMixin {
     @WrapMethod(method = "serialize", remap = false)
     public void wrapped(ByteBuf buf, Operation<Void> original) {
         int hash = Arrays.hashCode(modes);
-        if (hash == gervermod$cachedHash) {
-            buf.writeBytes(gervermod$cached, 0, gervermod$cached.writerIndex());
-            return;
+        if (gervermod$cached != null) {
+            if (hash == gervermod$cachedHash) {
+                buf.writeBytes(gervermod$cached, 0, gervermod$cached.writerIndex());
+                return;
+            }
+            gervermod$cached.release();
         }
-        gervermod$cached.release();
         gervermod$cached = PooledByteBufAllocator.DEFAULT.heapBuffer();
         original.call(gervermod$cached);
         gervermod$cachedHash = hash;
