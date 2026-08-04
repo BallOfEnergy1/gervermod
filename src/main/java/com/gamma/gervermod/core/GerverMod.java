@@ -13,11 +13,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.gamma.gervermod.Tags;
 import com.gamma.gervermod.command.AdminStructWorldCommand;
-import com.gamma.gervermod.command.CommandReapNetworks;
+import com.gamma.gervermod.command.ClearItemsCommand;
+import com.gamma.gervermod.command.GateCommand;
 import com.gamma.gervermod.command.StructWorldCommand;
 import com.gamma.gervermod.dim.struct.StructDimHandler;
 import com.gamma.gervermod.dim.struct.StructDimTeleporter;
 import com.gamma.gervermod.dim.struct.providers.IStructWorldProvider;
+import com.gamma.gervermod.gate.GateManager;
 import com.gtnewhorizon.gtnhlib.eventbus.EventBusSubscriber;
 
 import appeng.api.features.IWorldGen;
@@ -99,7 +101,8 @@ public class GerverMod {
 
         event.registerServerCommand(new StructWorldCommand());
         event.registerServerCommand(new AdminStructWorldCommand());
-        if (FixesCore.ntmLoaded) event.registerServerCommand(new CommandReapNetworks());
+        event.registerServerCommand(new ClearItemsCommand());
+        event.registerServerCommand(new GateCommand());
 
         World world = event.getServer()
             .getEntityWorld();
@@ -113,6 +116,8 @@ public class GerverMod {
                 world.getGameRules()
                     .addGameRule("structureFrequency" + dimID, "1500");
         }
+
+        GateManager.init(MinecraftServer.getServer());
     }
 
     @SubscribeEvent

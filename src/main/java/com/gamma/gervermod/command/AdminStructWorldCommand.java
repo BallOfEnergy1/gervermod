@@ -32,7 +32,7 @@ public class AdminStructWorldCommand extends CommandBase {
             StructDimHandler.allow();
         } else if (args[0].equalsIgnoreCase("timer")) {
             StructDimHandler.nextClearMillis = System.currentTimeMillis() + Integer.parseInt(args[1]);
-        } else throw new WrongUsageException("/adminstructworld <kick|disallow|timer>");
+        } else throw new WrongUsageException("/adminstructworld <kick|disallow|allow|timer>");
     }
 
     @Override
