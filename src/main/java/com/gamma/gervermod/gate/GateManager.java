@@ -24,7 +24,7 @@ public class GateManager {
     public static File dataFile;
 
     public static void init(MinecraftServer server) {
-        dataFile = new File(server.getFile("gerver"), "gateData");
+        dataFile = new File(server.getFile("gerver"), "gateData.bin");
         // noinspection ResultOfMethodCallIgnored
         dataFile.getParentFile()
             .mkdirs();
