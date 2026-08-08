@@ -91,7 +91,6 @@ public class GateManager {
 
         OIL1("Oil 1", of("ass.refinery")),
         OIL2("Oil 2", of("ass.crackingtower"), of("ass.radiolysis")),
-        // Disables placement of RBMK fuel columns
         RBMK("RBMK"),
         // Disables processing of tier 1 drives
         PLANET1("Drive Processor Tier 1"),

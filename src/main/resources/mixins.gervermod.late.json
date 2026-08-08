@@ -22,6 +22,7 @@
     "fixes.PlayerTabAIOOBFixMixin",
     "fixes.RandomTickSpeedMixin",
     "fixes.TPSTabAIOOBFixMixin",
+    "gate.MixinEntityMappings",
     "gate.TileEntityMachineDriveProcessorMixin",
     "nodespace.FluidNetMK2SpeedupMixin",
     "nodespace.NodeNetSpeedupMixin",
